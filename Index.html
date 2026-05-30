@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Deep Isle — The Isle Evrima Community Server</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:#4ECDC4; --teal-dim:#2A7A76; --teal-dark:#0A2826;
+  --pink:#C06080; --pink-bright:#E080A8;
+  --gold:#C8922A;
+  --bg:#000; --bg1:#060608; --bg2:#0A0C10; --bg3:#0E1116; --bg4:#13161C; --bg5:#181C24;
+  --text:#C8D8E8; --text-dim:#6A8098; --text-faint:#2A3A4A; --bone:#DCE8F0;
+  --border:rgba(78,205,196,0.12); --border-pink:rgba(192,96,128,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Raleway',sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden;}
+
+/* BG */
+.world-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 15% 0%,rgba(192,96,128,0.10) 0%,transparent 65%),
+    radial-gradient(ellipse 60% 40% at 85% 8%,rgba(192,96,128,0.08) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 100%,rgba(78,205,196,0.07) 0%,transparent 60%);}
+.world-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;
+  background-image:linear-gradient(rgba(78,205,196,1) 1px,transparent 1px),linear-gradient(90deg,rgba(78,205,196,1) 1px,transparent 1px);
+  background-size:64px 64px;}
+
+/* LAYOUT */
+.page{position:relative;z-index:1;}
+.shell{max-width:1100px;margin:0 auto;padding:0 28px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-family:'Cinzel',serif;font-size:15px;letter-spacing:3px;color:var(--teal);text-decoration:none;text-transform:uppercase;display:flex;align-items:center;gap:10px;}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none;}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--teal);}
+.nav-cta{color:#000!important;background:var(--teal);padding:7px 16px;border-radius:3px;transition:background .2s!important;}
+.nav-cta:hover{background:var(--pink-bright)!important;color:#000!important;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:100px 28px 60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(78,205,196,0.06) 0%,transparent 70%);}
+.dino-left,.dino-right{position:absolute;bottom:0;font-size:200px;line-height:1;opacity:.035;pointer-events:none;filter:blur(1px);}
+.dino-left{left:-20px;transform:scaleX(-1);}
+.dino-right{right:-20px;}
+.hero-eyebrow{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--teal-dim);margin-bottom:18px;animation:fadeUp .7s .1s ease both;}
+.hero-title{font-family:'Cinzel Decorative',serif;font-size:clamp(42px,8vw,96px);font-weight:900;letter-spacing:4px;line-height:1.0;margin-bottom:12px;
+  background:linear-gradient(135deg,var(--teal) 0%,var(--bone) 40%,var(--pink-bright) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 40px rgba(78,205,196,0.2));animation:fadeUp .7s .2s ease both;}
+.hero-sub{font-family:'Cinzel',serif;font-size:clamp(12px,2vw,16px);letter-spacing:8px;text-transform:uppercase;color:var(--text-dim);margin-bottom:32px;animation:fadeUp .7s .3s ease both;}
+.hero-desc{max-width:580px;font-size:15px;color:var(--text-dim);line-height:1.9;margin:0 auto 48px;animation:fadeUp .7s .4s ease both;}
+.hero-desc strong{color:var(--bone);}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .5s ease both;}
+.btn{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;
+  padding:14px 32px;border-radius:3px;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary{background:var(--teal);color:#000;box-shadow:0 0 30px rgba(78,205,196,0.25);}
+.btn-primary:hover{background:var(--bone);}
+.btn-secondary{background:transparent;color:var(--teal);border:1px solid rgba(78,205,196,0.4);}
+.btn-secondary:hover{background:rgba(78,205,196,0.08);}
+.btn-pink{background:var(--pink);color:#fff;}
+.btn-pink:hover{background:var(--pink-bright);}
+.btn-discord{background:#5865F2;color:#fff;}
+.btn-discord:hover{background:#4752C4;}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--text-faint);
+  text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeUp 1s 1s ease both;}
+.scroll-arrow{width:1px;height:40px;background:linear-gradient(180deg,var(--teal-dim),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* STATS */
+.stats-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 0;}
+.stats-inner{display:flex;justify-content:space-around;flex-wrap:wrap;gap:24px;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'Cinzel',serif;font-size:32px;font-weight:700;color:var(--teal);text-shadow:0 0 20px rgba(78,205,196,0.3);line-height:1;}
+.stat-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:4px;}
+
+/* SECTION HEADER */
+.sec-header{text-align:center;margin-bottom:56px;}
+.sec-eyebrow{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--teal-dim);margin-bottom:10px;}
+.sec-title{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,38px);font-weight:700;letter-spacing:2px;color:var(--bone);}
+.sec-title em{color:var(--teal);font-style:normal;}
+.sec-title .pink{color:var(--pink-bright);}
+.sec-line{width:60px;height:2px;background:linear-gradient(90deg,var(--teal),var(--pink));margin:16px auto 0;border-radius:2px;}
+
+section{padding:100px 0;}
+section:nth-child(even){background:rgba(255,255,255,0.012);}
+
+/* DISCORD CARD */
+.discord-card{background:linear-gradient(135deg,rgba(88,101,242,0.12),rgba(78,205,196,0.06));
+  border:1px solid rgba(88,101,242,0.25);border-radius:12px;padding:48px;
+  display:flex;align-items:center;gap:48px;flex-wrap:wrap;}
+.discord-icon{font-size:72px;flex-shrink:0;}
+.discord-body h3{font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--bone);margin-bottom:8px;}
+.discord-body p{color:var(--text-dim);font-size:14px;line-height:1.8;max-width:500px;}
+.discord-actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;}
+
+/* ══ GUIDE ══ */
+.guide-steps{display:flex;flex-direction:column;gap:32px;}
+.guide-step{background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s;}
+.guide-step:hover{border-color:rgba(78,205,196,0.28);}
+.step-header{display:flex;align-items:center;gap:16px;padding:20px 28px;
+  background:rgba(78,205,196,0.04);border-bottom:1px solid var(--border);cursor:pointer;}
+.step-num{font-family:'Cinzel',serif;font-size:28px;font-weight:700;color:var(--teal);
+  opacity:.5;line-height:1;flex-shrink:0;min-width:36px;}
+.step-title{font-family:'Cinzel',serif;font-size:15px;letter-spacing:1px;font-weight:700;
+  color:var(--bone);text-transform:uppercase;flex:1;}
+.step-toggle{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--teal-dim);
+  transition:transform .3s;}
+.step-toggle.open{transform:rotate(180deg);}
+.step-body{padding:28px;display:none;}
+.step-body.open{display:block;}
+.step-body p{font-size:14px;color:var(--text-dim);line-height:1.8;margin-bottom:12px;}
+.step-body p strong{color:var(--bone);}
+.step-body ul{list-style:none;margin-bottom:16px;}
+.step-body ul li{font-size:14px;color:var(--text-dim);padding:4px 0;display:flex;gap:8px;align-items:flex-start;}
+.step-body ul li::before{content:'›';color:var(--teal);flex-shrink:0;margin-top:1px;}
+.step-body ul li strong{color:var(--bone);}
+.step-note{background:rgba(78,205,196,0.06);border-left:3px solid var(--teal);border-radius:0 6px 6px 0;
+  padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-dim);}
+.step-note strong{color:var(--teal);}
+.step-warn{background:rgba(192,96,128,0.06);border-left:3px solid var(--pink);border-radius:0 6px 6px 0;
+  padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-dim);}
+.step-warn strong{color:var(--pink-bright);}
+.step-img{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin:14px 0;max-width:520px;}
+.step-img img{width:100%;display:block;}
+.step-img-caption{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;
+  color:var(--text-faint);text-align:center;padding:6px;background:rgba(255,255,255,0.02);}
+.step-code{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--teal);
+  background:rgba(78,205,196,0.08);border:1px solid rgba(78,205,196,0.15);
+  border-radius:4px;padding:10px 14px;margin:10px 0;display:block;}
+.step-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+.step-grid-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:6px;padding:12px 16px;}
+.step-grid-item h5{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+.step-grid-item p{font-size:13px;color:var(--text-dim);line-height:1.7;margin:0;}
+
+/* ══ RULES ══ */
+.rules-intro{background:rgba(192,96,128,0.06);border:1px solid rgba(192,96,128,0.2);
+  border-radius:8px;padding:20px 24px;margin-bottom:32px;font-size:14px;color:var(--text-dim);line-height:1.8;}
+.rules-intro strong{color:var(--pink-bright);}
+.rule-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  padding:22px 24px;margin-bottom:14px;display:flex;gap:18px;align-items:flex-start;transition:border-color .2s;}
+.rule-item:hover{border-color:rgba(78,205,196,0.25);}
+.rule-item.danger{border-color:rgba(192,96,128,0.2);}
+.rule-item.danger:hover{border-color:rgba(192,96,128,0.4);}
+.rule-num{font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--teal);
+  opacity:.35;line-height:1;flex-shrink:0;min-width:32px;}
+.rule-item.danger .rule-num{color:var(--pink);}
+.rule-body h4{font-family:'Cinzel',serif;font-size:13px;letter-spacing:1.5px;font-weight:700;
+  color:var(--bone);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.rule-body p{font-size:13px;color:var(--text-dim);line-height:1.8;}
+.rule-body p strong{color:var(--bone);}
+.rule-body ul{list-style:none;margin-top:8px;}
+.rule-body ul li{font-size:13px;color:var(--text-dim);padding:3px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.6;}
+.rule-body ul li::before{content:'›';color:var(--teal);flex-shrink:0;}
+.rule-body ul li.no::before{color:var(--pink);content:'✕';}
+.rule-body ul li.yes::before{color:var(--teal);content:'✓';}
+.rule-tag{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;
+  padding:2px 8px;border-radius:2px;}
+.tag-warning{background:rgba(200,146,42,0.15);color:var(--gold);border:1px solid rgba(200,146,42,0.25);}
+.tag-danger{background:rgba(192,96,128,0.15);color:var(--pink-bright);border:1px solid rgba(192,96,128,0.25);}
+
+/* Species table */
+.species-table-wrap{margin:24px 0;overflow-x:auto;}
+.species-table{width:100%;border-collapse:collapse;font-size:13px;}
+.species-table th{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  padding:10px 16px;text-align:left;}
+.th-carn{background:rgba(192,96,128,0.2);color:var(--pink-bright);}
+.th-herb{background:rgba(78,205,196,0.15);color:var(--teal);}
+.th-omni{background:rgba(200,146,42,0.15);color:var(--gold);}
+.th-lim{background:rgba(255,255,255,0.05);color:var(--text-dim);text-align:center;}
+.species-table td{padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-dim);vertical-align:middle;}
+.species-table td.lim{text-align:center;font-family:'Share Tech Mono',monospace;color:var(--bone);font-weight:700;}
+.species-table tr:hover td{background:rgba(255,255,255,0.02);}
+.species-table-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.species-col{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.species-col-head{padding:10px 16px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;}
+.head-carn{background:rgba(192,96,128,0.15);color:var(--pink-bright);}
+.head-herb{background:rgba(78,205,196,0.12);color:var(--teal);}
+.head-omni{background:rgba(200,146,42,0.12);color:var(--gold);}
+.species-row{display:flex;justify-content:space-between;align-items:center;
+  padding:7px 16px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;}
+.species-row:last-child{border-bottom:none;}
+.species-name{color:var(--text-dim);}
+.species-lim{font-family:'Share Tech Mono',monospace;color:var(--bone);font-size:12px;
+  background:rgba(255,255,255,0.05);padding:1px 8px;border-radius:10px;}
+
+/* MUMBLE */
+.mumble-card{background:linear-gradient(135deg,rgba(13,40,36,.8),rgba(10,12,16,.9));
+  border:1px solid rgba(78,205,196,0.2);border-radius:12px;padding:40px;
+  position:relative;overflow:hidden;margin-bottom:40px;}
+.mumble-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+.mumble-top{display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;}
+.mumble-icon{font-size:56px;flex-shrink:0;filter:drop-shadow(0 0 16px rgba(78,205,196,.4));}
+.mumble-intro h3{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--bone);margin-bottom:8px;}
+.mumble-intro p{color:var(--text-dim);font-size:14px;line-height:1.8;max-width:520px;margin-bottom:16px;}
+
+/* DONATION */
+.philosophy-banner{background:rgba(10,35,30,.6);border:1px solid rgba(78,205,196,.18);
+  border-left:3px solid var(--teal);border-radius:8px;padding:24px 28px;margin-bottom:40px;
+  display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.phil-icon{font-size:28px;flex-shrink:0;}
+.phil-text h4{font-family:'Cinzel',serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+.phil-text p{font-size:13px;color:var(--text-dim);line-height:1.8;}
+.phil-text p strong{color:var(--bone);}
+.phil-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.phil-badge{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:2px;background:rgba(78,205,196,.08);color:var(--teal);border:1px solid rgba(78,205,196,.2);}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.tier-card{border-radius:10px;padding:28px 22px 24px;position:relative;overflow:hidden;
+  border:1px solid transparent;transition:transform .25s,box-shadow .25s;}
+.tier-card:hover{transform:translateY(-5px);}
+.tier-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.tier-card::after{content:'';position:absolute;top:-60px;right:-60px;width:130px;height:130px;border-radius:50%;opacity:.08;}
+.tier-h{background:linear-gradient(160deg,#0C1620,#080E16);border-color:rgba(78,205,196,.22);}
+.tier-h::before{background:linear-gradient(90deg,transparent,#4ECDC4,transparent);}
+.tier-h::after{background:#4ECDC4;}
+.tier-h:hover{box-shadow:0 14px 40px rgba(78,205,196,.10);}
+.tier-p{background:linear-gradient(160deg,#110C1A,#0B0812);border-color:rgba(192,96,128,.25);}
+.tier-p::before{background:linear-gradient(90deg,transparent,#C06080,transparent);}
+.tier-p::after{background:#C06080;}
+.tier-p:hover{box-shadow:0 14px 40px rgba(192,96,128,.10);}
+.tier-k{background:linear-gradient(160deg,#130E1A,#0D0A14);border-color:rgba(224,128,168,.3);}
+.tier-k::before{background:linear-gradient(90deg,transparent,#E080A8,#4ECDC4,transparent);}
+.tier-k::after{background:#E080A8;}
+.tier-k:hover{box-shadow:0 14px 40px rgba(224,128,168,.12);}
+.tier-icon{font-size:26px;margin-bottom:10px;line-height:1;}
+.tier-name{font-family:'Cinzel',serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.tier-h .tier-name{color:#4ECDC4;} .tier-p .tier-name{color:#C06080;} .tier-k .tier-name{color:#E080A8;}
+.tier-price{font-size:12px;color:var(--text-dim);letter-spacing:.5px;margin-bottom:12px;}
+.tier-role{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;
+  text-transform:uppercase;padding:3px 10px;border-radius:2px;margin-bottom:16px;}
+.tier-h .tier-role{background:rgba(78,205,196,.1);color:#4ECDC4;border:1px solid rgba(78,205,196,.2);}
+.tier-p .tier-role{background:rgba(192,96,128,.1);color:#C06080;border:1px solid rgba(192,96,128,.2);}
+.tier-k .tier-role{background:rgba(224,128,168,.1);color:#E080A8;border:1px solid rgba(224,128,168,.2);}
+.tier-divider{height:1px;background:rgba(255,255,255,.06);margin-bottom:14px;}
+.tier-perks{list-style:none;}
+.tier-perks li{font-size:13px;color:var(--text);padding:4px 0;display:flex;gap:8px;align-items:flex-start;
+  border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5;}
+.tier-perks li:last-child{border-bottom:none;}
+.tier-h .tier-perks li::before{content:'◈';color:#4ECDC4;font-size:8px;margin-top:4px;flex-shrink:0;}
+.tier-p .tier-perks li::before{content:'◈';color:#C06080;font-size:8px;margin-top:4px;flex-shrink:0;}
+.tier-k .tier-perks li::before{content:'◈';color:#E080A8;font-size:8px;margin-top:4px;flex-shrink:0;}
+.tier-perks li.same{color:var(--text-faint);font-style:italic;font-size:12px;}
+.tier-h .tier-perks li.same::before,
+.tier-p .tier-perks li.same::before,
+.tier-k .tier-perks li.same::before{content:'—';color:var(--text-faint);}
+.donate-cta{text-align:center;margin-top:40px;padding:28px;
+  background:rgba(78,205,196,.04);border:1px solid rgba(78,205,196,.12);border-radius:8px;}
+.donate-cta p{font-size:13px;color:var(--text-dim);margin-bottom:16px;}
+.donate-cta p strong{color:var(--bone);}
+
+/* FOOTER */
+footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28px 32px;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px;}
+.footer-brand h3{font-family:'Cinzel',serif;font-size:18px;letter-spacing:3px;color:var(--teal);margin-bottom:8px;}
+.footer-brand p{font-size:12px;color:var(--text-dim);line-height:1.8;max-width:260px;}
+.footer-links h4{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;}
+.footer-links ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.footer-links a{font-size:13px;color:var(--text-dim);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--teal);}
+.footer-bottom{max-width:1100px;margin:32px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.04);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:1px;}
+.footer-dinos{font-size:18px;letter-spacing:4px;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  .tier-grid,.species-table-grid{grid-template-columns:1fr;}
+  .discord-card,.mumble-card{flex-direction:column;gap:24px;padding:28px;}
+  .mumble-top{flex-direction:column;}
+  nav .nav-links{display:none;}
+  .step-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .hero-title{font-size:36px;}
+  .hero-btns{flex-direction:column;align-items:center;}
+}
+</style>
+</head>
+<body>
+<div class="world-bg"></div>
+<div class="world-grid"></div>
+<div class="page">
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><span>🦖</span> The Deep Isle</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#guide">Mumble Guide</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#support">Support</a></li>
+    <li><a href="https://discord.gg/YOURINVITELINK" class="nav-cta">Join Discord</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="dino-left">🦕</div>
+  <div class="dino-right">🦖</div>
+  <p class="hero-eyebrow">The Isle · Evrima · Community Server</p>
+  <h1 class="hero-title">The Deep Isle</h1>
+  <p class="hero-sub">Survive. Evolve. Dominate.</p>
+  <p class="hero-desc">A <strong>community-run dedicated server</strong> for The Isle Evrima. Fair play, active admins, and a growing herd of players who take the island seriously. No pay-to-win, ever.</p>
+  <div class="hero-btns">
+    <a href="https://discord.gg/YOURINVITELINK" class="btn btn-discord">⬡ Join Discord</a>
+    <a href="#guide" class="btn btn-secondary">Mumble Setup Guide</a>
+    <a href="#support" class="btn btn-pink">Support Us</a>
+  </div>
+  <div class="scroll-hint"><div class="scroll-arrow"></div>scroll</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="shell stats-inner">
+    <div class="stat-item"><div class="stat-num">Evrima</div><div class="stat-label">Game Version</div></div>
+    <div class="stat-item"><div class="stat-num">18+</div><div class="stat-label">Age Requirement</div></div>
+    <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">Server Uptime</div></div>
+    <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">Pay-to-Win Elements</div></div>
+    <div class="stat-item"><div class="stat-num">PTT</div><div class="stat-label">Voice Required</div></div>
+  </div>
+</div>
+
+<!-- DISCORD -->
+<section id="about">
+  <div class="shell">
+    <div class="sec-header reveal">
+      <p class="sec-eyebrow">Community</p>
+      <h2 class="sec-title">Join the <em>Herd</em></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="discord-card reveal">
+      <div class="discord-icon">⬡</div>
+      <div class="discord-body">
+        <h3>The Deep Isle Discord</h3>
+        <p>Our Discord is the heartbeat of the community — server announcements, rule updates, event coordination, and a growing group of players who care about the game. Server IP, Mumble details, and all updates live there.</p>
+        <div class="discord-actions">
+          <a href="https://discord.gg/YOURINVITELINK" class="btn btn-discord">Join Now</a>
+          <a href="#rules" class="btn btn-secondary">Read the Rules First</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MUMBLE GUIDE -->
+<section id="guide">
+  <div class="shell">
+    <div class="sec-header reveal">
+      <p class="sec-eyebrow">Proximity Voice Chat</p>
+      <h2 class="sec-title">Mumble <em>Setup Guide</em></h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="mumble-card reveal">
+      <div class="mumble-top">
+        <div class="mumble-icon">🎙️</div>
+        <div class="mumble-intro">
+          <h3>Mumble is Required on The Deep Isle</h3>
+          <p>We use Mumble for positional proximity voice chat — players closer to you sound louder, audio comes from left/right based on position. <strong>Mumble is required to play on this server.</strong> If the server does not detect you on Mumble within 15 minutes of joining, you will be kicked automatically.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="https://www.mumble.info/downloads/" class="btn btn-primary" target="_blank">Download Mumble</a>
+            <a href="YOURMUMBLEDOWNLOADLINK" class="btn btn-secondary">Download Deep Isle Plugin</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-steps reveal">
+
+      <!-- STEP 1 -->
+      <div class="guide-step">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">01</div>
+          <div class="step-title">Install Mumble & the Deep Isle Plugin</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">
+          <ul>
+            <li>Download Mumble from <strong>mumble.info/downloads</strong> and install it like any normal program.</li>
+            <li>Download the <strong>TheDeepIsleExileVoicePluginSetup.exe</strong> Spatial Audio Plugin using the button above.</li>
+            <li>Run the plugin installer — it installs automatically to the correct Mumble folder.</li>
+          </ul>
+          <div class="step-note">
+            <strong>What the plugin does:</strong> Players closer to you = louder. Players further away = quieter. Audio comes from left/right depending on their position relative to yours. You need this plugin to hear people correctly in game.
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="guide-step">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">02</div>
+          <div class="step-title">Add the Server</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">
+          <ul>
+            <li>Open Mumble and click <strong>Server → Connect → Add New</strong></li>
+            <li>Enter the server details exactly as shown below and click <strong>OK</strong> to connect.</li>
+          </ul>
+          <div class="step-grid">
+            <div class="step-grid-item"><h5>Address</h5><p>75.185.83.53</p></div>
+            <div class="step-grid-item"><h5>Port</h5><p>64738</p></div>
+            <div class="step-grid-item"><h5>Username</h5><p>Your in-game name</p></div>
+            <div class="step-grid-item"><h5>Label</h5><p>The Deep Isle</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="guide-step">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">03</div>
+          <div class="step-title">Enable the Spatial Audio Plugin</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">
+          <ul>
+            <li>In Mumble click <strong>Configure → Settings → Plugins</strong></li>
+            <li>Find <strong>"Exile Voice - Spatial Audio"</strong> in the list</li>
+            <li>Make sure the checkbox next to it is <strong>ticked/enabled</strong></li>
+            <li>Close Mumble completely and restart it</li>
+          </ul>
+          <div class="step-note"><strong>After restarting</strong> you should see a message in the Mumble log confirming the plugin loaded: <em>"Exile Voice - Spatial Audio: [exile_voice] loaded"</em></div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="guide-step">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">04</div>
+          <div class="step-title">Verify In-Game</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">
+          <ul>
+            <li>Launch The Isle and join The Deep Isle server</li>
+            <li>Make sure Mumble is open and you are connected to the Mumble server</li>
+            <li>Mumble and the game server will communicate and verify your position automatically</li>
+          </ul>
+          <div class="step-note"><strong>If it's working:</strong> You will receive no messages from the server about Mumble.</div>
+          <div class="step-warn"><strong>If it's NOT working:</strong> You will begin receiving automated messages advising that Mumble is required. Fix the issue within <strong>15 minutes</strong> or you will be kicked automatically.</div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="guide-step">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">05</div>
+          <div class="step-title">Set Up Push-To-Talk (Required)</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">
+          <div class="step-warn"><strong>Push-To-Talk is required</strong> on this server at all times. Hot mics are not permitted.</div>
+          <ul>
+            <li>In Mumble click <strong>Configure → Settings → Shortcuts</strong></li>
+            <li>Click <strong>Add</strong></li>
+            <li>In the Function dropdown select <strong>Push-to-Talk</strong></li>
+            <li>Click the Shortcut field and press the key or mouse button you want to use</li>
+            <li>Click <strong>OK</strong> to save</li>
+          </ul>
+          <div class="step-note"><strong>Recommended:</strong> Mouse button 5 (M5) keeps your hands on keyboard/mouse without needing to reach for a key.</div>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="guide-step">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">06</div>
+          <div class="step-title">Disable Notification Sounds (Strongly Recommended)</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">
+          <p>Mumble has a lot of notification sounds by default that will interrupt your gameplay. It is strongly recommended to turn all of these off.</p>
+          <ul>
+            <li>Click <strong>Configure → Settings → Messages</strong></li>
+            <li>Untick <strong>ALL checkboxes</strong> in the Notification column — this removes all notification sounds</li>
+          </ul>
+          <p style="margin-top:12px;"><strong style="color:var(--bone);">Also remove mic activation noise:</strong></p>
+          <ul>
+            <li>Go to <strong>Configure → Settings → Audio Input → Misc</strong></li>
+            <li>Make sure <strong>Push To Talk</strong> and <strong>Voice Activity</strong> audio cue checkboxes are both <strong>unchecked</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- STEP 7 -->
+      <div class="guide-step">
+        <div class="step-header" onclick="toggleStep(this)">
+          <div class="step-num">07</div>
+          <div class="step-title">Audio Quality Fixes (Very Important)</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">
+          <div class="step-warn"><strong>These settings significantly improve audio quality.</strong> Please complete all steps.</div>
+          <ul>
+            <li>Go to <strong>Configure → Settings → Audio Input → Compression</strong></li>
+            <li><strong>Uncheck</strong> "Allow low-delay mode"</li>
+            <li>Turn <strong>"Audio per packet"</strong> slider to maximum (60ms)</li>
+            <li>Turn <strong>"Quality"</strong> slider to maximum (192.0 kb/s)</li>
+          </ul>
+          <div class="step-note" style="margin-top:12px;font-size:14px;font-weight:700;">
+            ✅ <strong>And you're done! Enjoy the server!</strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section id="rules">
+  <div class="shell">
+    <div class="sec-header reveal">
+      <p class="sec-eyebrow">Law of the Land</p>
+      <h2 class="sec-title">Server <span class="pink">Rules</span></h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="rules-intro reveal">
+      <strong>🔞 This server is 18+ only.</strong> If you are verified to be underage you will be kicked and banned immediately. There are no exceptions. By joining you confirm you are 18 or older.
+    </div>
+
+    <!-- Rule 1 -->
+    <div class="rule-item reveal">
+      <div class="rule-num">01</div>
+      <div class="rule-body">
+        <h4>Age Limit <span class="rule-tag tag-danger">18+ Only</span></h4>
+        <p>This server is <strong>18+ only</strong>. If you are verified to be underage you will be kicked and banned. There are no exceptions.</p>
+      </div>
+    </div>
+
+    <!-- Rule 2 -->
+    <div class="rule-item reveal">
+      <div class="rule-num">02</div>
+      <div class="rule-body">
+        <h4>⚔️ In-Game Combat Rules</h4>
+        <ul>
+          <li><strong>No Teamkilling:</strong> You cannot intentionally kill a member of your own group. If issues arise, disengage instead of escalating.</li>
+          <li><strong>Group Leaving:</strong> Do not leave a group and immediately start attacking. Give players time to relocate.</li>
+          <li><strong>RCON Ceasefire:</strong> All fights must stop immediately once the RCON restart message appears. Do not kill players who are safelogging for restart.</li>
+          <li><strong>Disconnect / Crash Abuse:</strong> Killing players who have crashed or are disconnecting is against the spirit of fair play.</li>
+        </ul>
+        <div style="margin-top:10px;">
+          <p><span class="rule-tag tag-warning">Admin Enforcement</span> If admins catch you excessively killing disconnected players, your Dino will be slayed — no exceptions.</p>
+          <p style="margin-top:6px;"><span class="rule-tag tag-warning">No Tickets</span> We do NOT accept reports for disconnect deaths as we cannot verify them.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 3 -->
+    <div class="rule-item reveal">
+      <div class="rule-num">03</div>
+      <div class="rule-body">
+        <h4>🦖 No Mixpacking / Megaherding</h4>
+        <ul>
+          <li class="no"><strong>Mixpacking:</strong> Different dinosaur species working or fighting together is NOT ALLOWED.</li>
+          <li class="no"><strong>Megaherding:</strong> Excessively large groups (see limits below) fighting together is NOT ALLOWED.</li>
+          <li class="yes"><strong>Allowed:</strong> Being near other species without protecting or benefiting from them.</li>
+          <li class="no"><strong>Not Allowed:</strong> Defending, assisting, or fighting alongside another species.</li>
+        </ul>
+        <div class="step-warn" style="margin-top:12px;">
+          <strong>Automation Warning:</strong> If you are within range of other species or oversized groups for 15+ minutes, you will receive an automated message. Shortly after, you will take health damage until you separate.
+        </div>
+      </div>
+    </div>
+
+    <!-- Species Table -->
+    <div class="rule-item reveal" style="flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:18px;align-items:flex-start;width:100%;">
+        <div class="rule-num" style="opacity:.35;color:var(--teal);">—</div>
+        <div class="rule-body" style="width:100%;">
+          <h4>Group Size Limits by Species</h4>
+          <p>Once you hit your first mutation, you count toward the group number. If the group is full, you must leave.</p>
+          <div class="species-table-grid" style="margin-top:16px;">
+            <div class="species-col">
+              <div class="species-col-head head-carn">Carnivores</div>
+              <div class="species-row"><span class="species-name">Tyrannosaurus</span><span class="species-lim">2</span></div>
+              <div class="species-row"><span class="species-name">Deinosuchus</span><span class="species-lim">2</span></div>
+              <div class="species-row"><span class="species-name">Allosaurus</span><span class="species-lim">3</span></div>
+              <div class="species-row"><span class="species-name">Carnotaurus</span><span class="species-lim">3</span></div>
+              <div class="species-row"><span class="species-name">Ceratosaurus</span><span class="species-lim">4</span></div>
+              <div class="species-row"><span class="species-name">Herrerasaurus</span><span class="species-lim">4</span></div>
+              <div class="species-row"><span class="species-name">Dilophosaurus</span><span class="species-lim">5</span></div>
+              <div class="species-row"><span class="species-name">Omniraptor</span><span class="species-lim">8</span></div>
+              <div class="species-row"><span class="species-name">Pteranodon</span><span class="species-lim">10</span></div>
+              <div class="species-row"><span class="species-name">Troodon</span><span class="species-lim">10</span></div>
+            </div>
+            <div class="species-col">
+              <div class="species-col-head head-herb">Herbivores</div>
+              <div class="species-row"><span class="species-name">Stegosaurus</span><span class="species-lim">2</span></div>
+              <div class="species-row"><span class="species-name">Triceratops</span><span class="species-lim">2</span></div>
+              <div class="species-row"><span class="species-name">Diabloceratops</span><span class="species-lim">4</span></div>
+              <div class="species-row"><span class="species-name">Maiasaura</span><span class="species-lim">5</span></div>
+              <div class="species-row"><span class="species-name">Tenontosaurus</span><span class="species-lim">5</span></div>
+              <div class="species-row"><span class="species-name">Pachycephalo</span><span class="species-lim">6</span></div>
+              <div class="species-row"><span class="species-name">Dryosaurus</span><span class="species-lim">10</span></div>
+              <div class="species-row"><span class="species-name">Hypsilophodon</span><span class="species-lim">10</span></div>
+            </div>
+            <div class="species-col">
+              <div class="species-col-head head-omni">Omnivores</div>
+              <div class="species-row"><span class="species-name">Beipiaosaurus</span><span class="species-lim">10</span></div>
+              <div class="species-row"><span class="species-name">Gallimimus</span><span class="species-lim">6</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rule 4 -->
+    <div class="rule-item reveal">
+      <div class="rule-num">04</div>
+      <div class="rule-body">
+        <h4>🚫 No Third Partying</h4>
+        <p>Do <strong>NOT</strong> join fights that are already in progress. Wait until the fight is clearly over before engaging.</p>
+        <ul>
+          <li class="no">Jumping into an active fight or attacking already engaged players</li>
+          <li class="no">Grouping mid-fight to help someone</li>
+        </ul>
+        <p style="margin-top:10px;color:var(--teal);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;">EXCEPTIONS:</p>
+        <ul>
+          <li>🐊 <strong>Deinosuchus:</strong> Exempt due to its ambush playstyle. However, Deinosuchus may NOT third-party other Deinosuchus in combat.</li>
+          <li>🦎 <strong>Herrerasaurus:</strong> Exempt due to its ambush playstyle.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Rule 5 -->
+    <div class="rule-item reveal">
+      <div class="rule-num">05</div>
+      <div class="rule-body">
+        <h4>🎙️ Voice Chat & Interactions</h4>
+        <ul>
+          <li><strong>Push-To-Talk (PTT) Required</strong> at all times to prevent hot mics and maintain immersion.</li>
+          <li><strong>Respect:</strong> Abuse, harassment, or inappropriate behavior in voice channels will result in immediate moderation action or bans.</li>
+          <li><strong>No Music in VC.</strong> Soundboards are allowed if used responsibly — disruptive use will not be tolerated.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Rule 6 -->
+    <div class="rule-item reveal">
+      <div class="rule-num">06</div>
+      <div class="rule-body">
+        <h4>📊 Group & Nesting Limits</h4>
+        <ul>
+          <li><strong>Mutation Rule:</strong> Once you hit your first mutation, you count towards the group number. If the group is full, you must leave.</li>
+          <li><strong>Nesting-Slay Mechanic:</strong> To prevent over-nesting, hatchlings will be automatically slain if the species is already at or past its cap.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Final rule -->
+    <div class="rule-item reveal" style="border-color:rgba(78,205,196,0.3);background:rgba(13,40,36,0.4);">
+      <div class="rule-num" style="opacity:1;">📜</div>
+      <div class="rule-body">
+        <h4 style="color:var(--teal);">Have Fun, Be Courteous & Respectful</h4>
+        <p>We are all here to have fun and enjoy the game. Be courteous, respectful, and kind. Treat everyone else how you would want to be treated. Also... eat some dinosaurs!</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support">
+  <div class="shell">
+    <div class="sec-header reveal">
+      <p class="sec-eyebrow">Keep the Island Alive</p>
+      <h2 class="sec-title">Support <em>the Server</em></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="philosophy-banner reveal">
+      <div class="phil-icon">🌿</div>
+      <div class="phil-text">
+        <h4>Our Philosophy — No Pay-to-Win, Ever</h4>
+        <p>Every player has the <strong>exact same gameplay experience</strong> regardless of whether they've donated. No queue skipping, no spawn advantages, no mod powers. Supporting the server gets you a coloured Discord role and a warm feeling — that's it. The island is free and fair for everyone.</p>
+        <div class="phil-badges">
+          <span class="phil-badge">✓ No gameplay advantage</span>
+          <span class="phil-badge">✓ No priority spawns</span>
+          <span class="phil-badge">✓ No mod permissions</span>
+          <span class="phil-badge">✓ Full cost transparency</span>
+        </div>
+      </div>
+    </div>
+    <div class="tier-grid">
+      <div class="tier-card tier-h reveal">
+        <div class="tier-icon">🌱</div>
+        <div class="tier-name">Hatchling Supporter</div>
+        <div class="tier-price">$1 / month · ~1% of server costs</div>
+        <div class="tier-role">@Hatchling Supporter</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-perks">
+          <li>Teal name in member list + 🌱 badge</li>
+          <li>Shoutout in #🎉supporter-wall</li>
+          <li>Access to #💬supporter-chat</li>
+          <li>Name in monthly thank-you post</li>
+          <li class="same">Same gameplay as everyone else</li>
+        </ul>
+      </div>
+      <div class="tier-card tier-p reveal">
+        <div class="tier-icon">🦴</div>
+        <div class="tier-name">Pack Member</div>
+        <div class="tier-price">$3 / month · ~4% of server costs</div>
+        <div class="tier-role">@Pack Member</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-perks">
+          <li>Pink name + 🦴 badge</li>
+          <li>Shoutout + pinned thank-you message</li>
+          <li>Vote on cosmetic server decisions</li>
+          <li>Early peek at server news</li>
+          <li class="same">Same gameplay as everyone else</li>
+        </ul>
+      </div>
+      <div class="tier-card tier-k reveal">
+        <div class="tier-icon">🦖</div>
+        <div class="tier-name">Island Keeper</div>
+        <div class="tier-price">$5 / month · ~7% of server costs</div>
+        <div class="tier-role">@Island Keeper</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-perks">
+          <li>Gold-pink glowing name + 🦖 badge</li>
+          <li>Listed in #📊server-costs</li>
+          <li>Monthly admin Q&A access</li>
+          <li>Input on non-gameplay decisions</li>
+          <li class="same">Same gameplay as everyone else</li>
+        </ul>
+      </div>
+    </div>
+    <div class="donate-cta reveal">
+      <p><strong>Monthly server cost: $76.58</strong> — hosting, bots, electricity, and tools. Every cent is accounted for publicly in our Discord.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://ko-fi.com/theisleevrima" class="btn btn-primary" target="_blank">Support on Ko-fi</a>
+        <a href="https://discord.gg/YOURINVITELINK" class="btn btn-secondary">View Cost Breakdown</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>🦖 The Deep Isle</h3>
+      <p>A community-run The Isle Evrima server. Fair play, active admins, and a growing herd. No pay-to-win, ever.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#guide">Mumble Guide</a></li>
+        <li><a href="#rules">Rules</a></li>
+        <li><a href="#support">Support Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Links</h4>
+      <ul>
+        <li><a href="https://discord.gg/YOURINVITELINK" target="_blank">Discord Server</a></li>
+        <li><a href="https://ko-fi.com/theisleevrima" target="_blank">Ko-fi Page</a></li>
+        <li><a href="YOURMUMBLEDOWNLOADLINK">Mumble Plugin</a></li>
+        <li><a href="https://www.mumble.info/downloads/" target="_blank">Download Mumble</a></li>
+        <li><a href="https://www.theislegame.com" target="_blank">The Isle Official</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Monthly Costs</h4>
+      <ul>
+        <li><a href="#support">PC Hosting: $43.60</a></li>
+        <li><a href="#support">Carl-bot Pro: $7.99</a></li>
+        <li><a href="#support">Discord Nitro: $9.99</a></li>
+        <li><a href="#support">Claude AI (50%): $10.00</a></li>
+        <li><a href="#support">Total: $76.58/mo</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© The Deep Isle · Community Server · Not affiliated with Afterthought LLC</span>
+    <span class="footer-dinos">🦕🦖🦕</span>
+    <span>Zero P2W · Fair for All · Island Survives</span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Accordion steps
+function toggleStep(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.step-toggle');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Nav active state
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.getAttribute('id'); });
+  navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--teal)' : ''; });
+});
+</script>
+</body>
+</html>
