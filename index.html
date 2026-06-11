@@ -13,6 +13,7 @@
   --bg:#000; --bg1:#060608; --bg2:#0A0C10; --bg3:#0E1116; --bg4:#13161C; --bg5:#181C24;
   --text:#C8D8E8; --text-dim:#6A8098; --text-faint:#2A3A4A; --bone:#DCE8F0;
   --border:rgba(78,205,196,0.12); --border-pink:rgba(192,96,128,0.15);
+  --earl:#A67C52; --earl-bright:#D4A96A; --earl-glow:rgba(166,124,82,0.15);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -68,6 +69,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.88);
 .btn-pink:hover{background:var(--pink-bright);}
 .btn-discord{background:#5865F2;color:#fff;}
 .btn-discord:hover{background:#4752C4;}
+.btn-earl{background:rgba(166,124,82,0.15);color:var(--earl-bright);border:1px solid rgba(166,124,82,0.35);}
+.btn-earl:hover{background:rgba(166,124,82,0.25);}
 .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
   font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--text-faint);
   text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeUp 1s 1s ease both;}
@@ -87,11 +90,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,0.88);
 .sec-title{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,38px);font-weight:700;letter-spacing:2px;color:var(--bone);}
 .sec-title em{color:var(--teal);font-style:normal;}
 .sec-title .pink{color:var(--pink-bright);}
+.sec-title .earl{color:var(--earl-bright);}
 .sec-line{width:60px;height:2px;background:linear-gradient(90deg,var(--teal),var(--pink));margin:16px auto 0;border-radius:2px;}
+.sec-line-earl{width:60px;height:2px;background:linear-gradient(90deg,var(--earl),var(--earl-bright));margin:16px auto 0;border-radius:2px;}
 
 section{padding:100px 0;}
-section:nth-child(even){background:rgba(255,255,255,0.012);}  
-  
+section:nth-child(even){background:rgba(255,255,255,0.012);}
+
 /* DISCORD CARD */
 .discord-card{background:linear-gradient(135deg,rgba(88,101,242,0.12),rgba(78,205,196,0.06));
   border:1px solid rgba(88,101,242,0.25);border-radius:12px;padding:48px;
@@ -100,6 +105,53 @@ section:nth-child(even){background:rgba(255,255,255,0.012);}
 .discord-body h3{font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--bone);margin-bottom:8px;}
 .discord-body p{color:var(--text-dim);font-size:14px;line-height:1.8;max-width:500px;}
 .discord-actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;}
+
+/* SERVERS GRID */
+.servers-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:0;}
+.server-card{border-radius:12px;padding:32px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;}
+.server-card:hover{transform:translateY(-4px);}
+.server-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+
+/* Main server card */
+.server-main{background:linear-gradient(135deg,rgba(13,40,36,0.7),rgba(8,14,22,0.9));border:1px solid rgba(78,205,196,0.22);}
+.server-main::before{background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+.server-main:hover{box-shadow:0 14px 40px rgba(78,205,196,0.10);}
+.server-main::after{content:'';position:absolute;top:-60px;right:-60px;width:130px;height:130px;border-radius:50%;opacity:.08;background:var(--teal);}
+
+/* Earl card */
+.server-earl{background:linear-gradient(135deg,rgba(30,22,12,0.85),rgba(12,10,6,0.95));border:1px solid rgba(166,124,82,0.28);}
+.server-earl::before{background:linear-gradient(90deg,transparent,var(--earl),var(--earl-bright),transparent);}
+.server-earl:hover{box-shadow:0 14px 40px rgba(166,124,82,0.12);}
+.server-earl::after{content:'';position:absolute;top:-60px;right:-60px;width:130px;height:130px;border-radius:50%;opacity:.07;background:var(--earl-bright);}
+
+.server-badge{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;padding:3px 10px;border-radius:2px;margin-bottom:14px;}
+.badge-live{background:rgba(46,204,113,0.1);color:#2ECC71;border:1px solid rgba(46,204,113,0.25);}
+.badge-experimental{background:rgba(166,124,82,0.12);color:var(--earl-bright);border:1px solid rgba(166,124,82,0.3);}
+
+.server-name{font-family:'Cinzel',serif;font-size:26px;font-weight:700;letter-spacing:2px;margin-bottom:6px;}
+.server-main .server-name{color:var(--teal);}
+.server-earl .server-name{color:var(--earl-bright);}
+
+.server-tagline{font-size:13px;color:var(--text-dim);margin-bottom:20px;line-height:1.7;}
+
+.server-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.server-detail{background:rgba(255,255,255,0.03);border-radius:5px;padding:10px 12px;border:1px solid rgba(255,255,255,0.05);}
+.server-detail-label{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.server-main .server-detail-label{color:var(--teal-dim);}
+.server-earl .server-detail-label{color:var(--earl);}
+.server-detail-val{font-size:13px;color:var(--bone);font-weight:600;}
+
+.server-features{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;}
+.server-feature{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;
+  text-transform:uppercase;padding:3px 9px;border-radius:2px;}
+.server-main .server-feature{background:rgba(78,205,196,0.08);color:var(--teal);border:1px solid rgba(78,205,196,0.15);}
+.server-earl .server-feature{background:rgba(166,124,82,0.08);color:var(--earl-bright);border:1px solid rgba(166,124,82,0.18);}
+
+.server-note{font-size:12px;color:var(--text-faint);line-height:1.7;font-style:italic;
+  border-top:1px solid rgba(255,255,255,0.05);padding-top:14px;margin-top:4px;}
+.server-main .server-note{color:var(--text-dim);}
+.server-earl .server-note strong{color:var(--earl-bright);}
 
 /* ══ GUIDE ══ */
 .guide-steps{display:flex;flex-direction:column;gap:32px;}
@@ -111,8 +163,7 @@ section:nth-child(even){background:rgba(255,255,255,0.012);}
   opacity:.5;line-height:1;flex-shrink:0;min-width:36px;}
 .step-title{font-family:'Cinzel',serif;font-size:15px;letter-spacing:1px;font-weight:700;
   color:var(--bone);text-transform:uppercase;flex:1;}
-.step-toggle{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--teal-dim);
-  transition:transform .3s;}
+.step-toggle{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--teal-dim);transition:transform .3s;}
 .step-toggle.open{transform:rotate(180deg);}
 .step-body{padding:28px;display:none;}
 .step-body.open{display:block;}
@@ -122,40 +173,35 @@ section:nth-child(even){background:rgba(255,255,255,0.012);}
 .step-body ul li{font-size:14px;color:var(--text-dim);padding:4px 0;display:flex;gap:8px;align-items:flex-start;}
 .step-body ul li::before{content:'›';color:var(--teal);flex-shrink:0;margin-top:1px;}
 .step-body ul li strong{color:var(--bone);}
-.step-note{background:rgba(78,205,196,0.06);border-left:3px solid var(--teal);border-radius:0 6px 6px 0;
-  padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-dim);}
+.step-note{background:rgba(78,205,196,0.06);border-left:3px solid var(--teal);border-radius:0 6px 6px 0;padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-dim);}
 .step-note strong{color:var(--teal);}
-.step-warn{background:rgba(192,96,128,0.06);border-left:3px solid var(--pink);border-radius:0 6px 6px 0;
-  padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-dim);}
+.step-warn{background:rgba(192,96,128,0.06);border-left:3px solid var(--pink);border-radius:0 6px 6px 0;padding:12px 16px;margin:12px 0;font-size:13px;color:var(--text-dim);}
 .step-warn strong{color:var(--pink-bright);}
-.step-img{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin:14px 0;max-width:520px;}
-.step-img img{width:100%;display:block;}
-.step-img-caption{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;
-  color:var(--text-faint);text-align:center;padding:6px;background:rgba(255,255,255,0.02);}
-.step-code{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--teal);
-  background:rgba(78,205,196,0.08);border:1px solid rgba(78,205,196,0.15);
-  border-radius:4px;padding:10px 14px;margin:10px 0;display:block;}
 .step-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
-.step-grid-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);
-  border-radius:6px;padding:12px 16px;}
-.step-grid-item h5{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+.step-grid-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:12px 16px;}
+.step-grid-item h5{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
 .step-grid-item p{font-size:13px;color:var(--text-dim);line-height:1.7;margin:0;}
 
+/* MUMBLE */
+.mumble-card{background:linear-gradient(135deg,rgba(13,40,36,.8),rgba(10,12,16,.9));
+  border:1px solid rgba(78,205,196,0.2);border-radius:12px;padding:40px;
+  position:relative;overflow:hidden;margin-bottom:40px;}
+.mumble-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+.mumble-top{display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;}
+.mumble-icon{font-size:56px;flex-shrink:0;filter:drop-shadow(0 0 16px rgba(78,205,196,.4));}
+.mumble-intro h3{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--bone);margin-bottom:8px;}
+.mumble-intro p{color:var(--text-dim);font-size:14px;line-height:1.8;max-width:520px;margin-bottom:16px;}
+
 /* ══ RULES ══ */
-.rules-intro{background:rgba(192,96,128,0.06);border:1px solid rgba(192,96,128,0.2);
-  border-radius:8px;padding:20px 24px;margin-bottom:32px;font-size:14px;color:var(--text-dim);line-height:1.8;}
+.rules-intro{background:rgba(192,96,128,0.06);border:1px solid rgba(192,96,128,0.2);border-radius:8px;padding:20px 24px;margin-bottom:32px;font-size:14px;color:var(--text-dim);line-height:1.8;}
 .rules-intro strong{color:var(--pink-bright);}
-.rule-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;
-  padding:22px 24px;margin-bottom:14px;display:flex;gap:18px;align-items:flex-start;transition:border-color .2s;}
+.rule-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:22px 24px;margin-bottom:14px;display:flex;gap:18px;align-items:flex-start;transition:border-color .2s;}
 .rule-item:hover{border-color:rgba(78,205,196,0.25);}
 .rule-item.danger{border-color:rgba(192,96,128,0.2);}
 .rule-item.danger:hover{border-color:rgba(192,96,128,0.4);}
-.rule-num{font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--teal);
-  opacity:.35;line-height:1;flex-shrink:0;min-width:32px;}
+.rule-num{font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--teal);opacity:.35;line-height:1;flex-shrink:0;min-width:32px;}
 .rule-item.danger .rule-num{color:var(--pink);}
-.rule-body h4{font-family:'Cinzel',serif;font-size:13px;letter-spacing:1.5px;font-weight:700;
-  color:var(--bone);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.rule-body h4{font-family:'Cinzel',serif;font-size:13px;letter-spacing:1.5px;font-weight:700;color:var(--bone);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
 .rule-body p{font-size:13px;color:var(--text-dim);line-height:1.8;}
 .rule-body p strong{color:var(--bone);}
 .rule-body ul{list-style:none;margin-top:8px;}
@@ -163,61 +209,30 @@ section:nth-child(even){background:rgba(255,255,255,0.012);}
 .rule-body ul li::before{content:'›';color:var(--teal);flex-shrink:0;}
 .rule-body ul li.no::before{color:var(--pink);content:'✕';}
 .rule-body ul li.yes::before{color:var(--teal);content:'✓';}
-.rule-tag{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;
-  padding:2px 8px;border-radius:2px;}
+.rule-tag{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:2px;}
 .tag-warning{background:rgba(200,146,42,0.15);color:var(--gold);border:1px solid rgba(200,146,42,0.25);}
 .tag-danger{background:rgba(192,96,128,0.15);color:var(--pink-bright);border:1px solid rgba(192,96,128,0.25);}
-
-/* Species table */
-.species-table-wrap{margin:24px 0;overflow-x:auto;}
-.species-table{width:100%;border-collapse:collapse;font-size:13px;}
-.species-table th{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;
-  padding:10px 16px;text-align:left;}
-.th-carn{background:rgba(192,96,128,0.2);color:var(--pink-bright);}
-.th-herb{background:rgba(78,205,196,0.15);color:var(--teal);}
-.th-omni{background:rgba(200,146,42,0.15);color:var(--gold);}
-.th-lim{background:rgba(255,255,255,0.05);color:var(--text-dim);text-align:center;}
-.species-table td{padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-dim);vertical-align:middle;}
-.species-table td.lim{text-align:center;font-family:'Share Tech Mono',monospace;color:var(--bone);font-weight:700;}
-.species-table tr:hover td{background:rgba(255,255,255,0.02);}
 .species-table-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
 .species-col{background:var(--bg3);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
 .species-col-head{padding:10px 16px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;}
 .head-carn{background:rgba(192,96,128,0.15);color:var(--pink-bright);}
 .head-herb{background:rgba(78,205,196,0.12);color:var(--teal);}
 .head-omni{background:rgba(200,146,42,0.12);color:var(--gold);}
-.species-row{display:flex;justify-content:space-between;align-items:center;
-  padding:7px 16px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;}
+.species-row{display:flex;justify-content:space-between;align-items:center;padding:7px 16px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;}
 .species-row:last-child{border-bottom:none;}
 .species-name{color:var(--text-dim);}
-.species-lim{font-family:'Share Tech Mono',monospace;color:var(--bone);font-size:12px;
-  background:rgba(255,255,255,0.05);padding:1px 8px;border-radius:10px;}
-
-/* MUMBLE */
-.mumble-card{background:linear-gradient(135deg,rgba(13,40,36,.8),rgba(10,12,16,.9));
-  border:1px solid rgba(78,205,196,0.2);border-radius:12px;padding:40px;
-  position:relative;overflow:hidden;margin-bottom:40px;}
-.mumble-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--teal),transparent);}
-.mumble-top{display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;}
-.mumble-icon{font-size:56px;flex-shrink:0;filter:drop-shadow(0 0 16px rgba(78,205,196,.4));}
-.mumble-intro h3{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--bone);margin-bottom:8px;}
-.mumble-intro p{color:var(--text-dim);font-size:14px;line-height:1.8;max-width:520px;margin-bottom:16px;}
+.species-lim{font-family:'Share Tech Mono',monospace;color:var(--bone);font-size:12px;background:rgba(255,255,255,0.05);padding:1px 8px;border-radius:10px;}
 
 /* DONATION */
-.philosophy-banner{background:rgba(10,35,30,.6);border:1px solid rgba(78,205,196,.18);
-  border-left:3px solid var(--teal);border-radius:8px;padding:24px 28px;margin-bottom:40px;
-  display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.philosophy-banner{background:rgba(10,35,30,.6);border:1px solid rgba(78,205,196,.18);border-left:3px solid var(--teal);border-radius:8px;padding:24px 28px;margin-bottom:40px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
 .phil-icon{font-size:28px;flex-shrink:0;}
 .phil-text h4{font-family:'Cinzel',serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
 .phil-text p{font-size:13px;color:var(--text-dim);line-height:1.8;}
 .phil-text p strong{color:var(--bone);}
 .phil-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-.phil-badge{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
-  padding:3px 10px;border-radius:2px;background:rgba(78,205,196,.08);color:var(--teal);border:1px solid rgba(78,205,196,.2);}
+.phil-badge{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:2px;background:rgba(78,205,196,.08);color:var(--teal);border:1px solid rgba(78,205,196,.2);}
 .tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.tier-card{border-radius:10px;padding:28px 22px 24px;position:relative;overflow:hidden;
-  border:1px solid transparent;transition:transform .25s,box-shadow .25s;}
+.tier-card{border-radius:10px;padding:28px 22px 24px;position:relative;overflow:hidden;border:1px solid transparent;transition:transform .25s,box-shadow .25s;}
 .tier-card:hover{transform:translateY(-5px);}
 .tier-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
 .tier-card::after{content:'';position:absolute;top:-60px;right:-60px;width:130px;height:130px;border-radius:50%;opacity:.08;}
@@ -237,25 +252,20 @@ section:nth-child(even){background:rgba(255,255,255,0.012);}
 .tier-name{font-family:'Cinzel',serif;font-size:15px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
 .tier-h .tier-name{color:#4ECDC4;} .tier-p .tier-name{color:#C06080;} .tier-k .tier-name{color:#E080A8;}
 .tier-price{font-size:12px;color:var(--text-dim);letter-spacing:.5px;margin-bottom:12px;}
-.tier-role{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;
-  text-transform:uppercase;padding:3px 10px;border-radius:2px;margin-bottom:16px;}
+.tier-role{display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:2px;margin-bottom:16px;}
 .tier-h .tier-role{background:rgba(78,205,196,.1);color:#4ECDC4;border:1px solid rgba(78,205,196,.2);}
 .tier-p .tier-role{background:rgba(192,96,128,.1);color:#C06080;border:1px solid rgba(192,96,128,.2);}
 .tier-k .tier-role{background:rgba(224,128,168,.1);color:#E080A8;border:1px solid rgba(224,128,168,.2);}
 .tier-divider{height:1px;background:rgba(255,255,255,.06);margin-bottom:14px;}
 .tier-perks{list-style:none;}
-.tier-perks li{font-size:13px;color:var(--text);padding:4px 0;display:flex;gap:8px;align-items:flex-start;
-  border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5;}
+.tier-perks li{font-size:13px;color:var(--text);padding:4px 0;display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5;}
 .tier-perks li:last-child{border-bottom:none;}
 .tier-h .tier-perks li::before{content:'◈';color:#4ECDC4;font-size:8px;margin-top:4px;flex-shrink:0;}
 .tier-p .tier-perks li::before{content:'◈';color:#C06080;font-size:8px;margin-top:4px;flex-shrink:0;}
 .tier-k .tier-perks li::before{content:'◈';color:#E080A8;font-size:8px;margin-top:4px;flex-shrink:0;}
 .tier-perks li.same{color:var(--text-faint);font-style:italic;font-size:12px;}
-.tier-h .tier-perks li.same::before,
-.tier-p .tier-perks li.same::before,
-.tier-k .tier-perks li.same::before{content:'—';color:var(--text-faint);}
-.donate-cta{text-align:center;margin-top:40px;padding:28px;
-  background:rgba(78,205,196,.04);border:1px solid rgba(78,205,196,.12);border-radius:8px;}
+.tier-h .tier-perks li.same::before,.tier-p .tier-perks li.same::before,.tier-k .tier-perks li.same::before{content:'—';color:var(--text-faint);}
+.donate-cta{text-align:center;margin-top:40px;padding:28px;background:rgba(78,205,196,.04);border:1px solid rgba(78,205,196,.12);border-radius:8px;}
 .donate-cta p{font-size:13px;color:var(--text-dim);margin-bottom:16px;}
 .donate-cta p strong{color:var(--bone);}
 
@@ -268,9 +278,7 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
 .footer-links ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
 .footer-links a{font-size:13px;color:var(--text-dim);text-decoration:none;transition:color .2s;}
 .footer-links a:hover{color:var(--teal);}
-.footer-bottom{max-width:1100px;margin:32px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.04);
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
-  font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:1px;}
+.footer-bottom{max-width:1100px;margin:32px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-faint);letter-spacing:1px;}
 .footer-dinos{font-size:18px;letter-spacing:4px;}
 
 /* ANIMATIONS */
@@ -279,7 +287,7 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
 .reveal.visible{opacity:1;transform:translateY(0);}
 
 @media(max-width:900px){
-  .tier-grid,.species-table-grid{grid-template-columns:1fr;}
+  .tier-grid,.species-table-grid,.servers-grid{grid-template-columns:1fr;}
   .discord-card,.mumble-card{flex-direction:column;gap:24px;padding:28px;}
   .mumble-top{flex-direction:column;}
   nav .nav-links{display:none;}
@@ -289,32 +297,24 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
   .hero-title{font-size:36px;}
   .hero-btns{flex-direction:column;align-items:center;}
 }
-  .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
-  display:flex;align-items:center;justify-content:center;padding:20px;
-  opacity:0;pointer-events:none;transition:opacity .25s ease;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s ease;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--bg3);border:1px solid rgba(78,205,196,0.25);border-radius:12px;
-  max-width:520px;width:100%;position:relative;overflow:hidden;
-  transform:translateY(20px);transition:transform .25s ease;}
+.modal{background:var(--bg3);border:1px solid rgba(78,205,196,0.25);border-radius:12px;max-width:520px;width:100%;position:relative;overflow:hidden;transform:translateY(20px);transition:transform .25s ease;}
 .modal-overlay.open .modal{transform:translateY(0);}
-.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--teal),var(--pink),transparent);}
-.modal-header{padding:24px 28px 16px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal),var(--pink),transparent);}
+.modal-header{padding:24px 28px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .modal-header h3{font-family:'Cinzel',serif;font-size:16px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);}
-.modal-close{background:none;border:none;color:var(--text-dim);font-size:20px;
-  cursor:pointer;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
+.modal-close{background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px;transition:color .2s,background .2s;}
 .modal-close:hover{color:var(--bone);background:rgba(255,255,255,0.06);}
 .modal-body{padding:24px 28px 28px;}
-.cost-row{display:flex;justify-content:space-between;align-items:center;
-  padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.cost-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
 .cost-row:last-of-type{border-bottom:none;}
 .cost-label{font-size:13px;color:var(--text-dim);}
 .cost-label span{font-size:11px;color:var(--text-faint);display:block;margin-top:2px;}
 .cost-amount{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--bone);}
-.cost-total{display:flex;justify-content:space-between;align-items:center;
-  margin-top:16px;padding:14px 16px;background:rgba(78,205,196,0.06);
-  border:1px solid rgba(78,205,196,0.15);border-radius:6px;}
+.cost-total{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding:14px 16px;background:rgba(78,205,196,0.06);border:1px solid rgba(78,205,196,0.15);border-radius:6px;}
 .cost-total-label{font-family:'Cinzel',serif;font-size:13px;letter-spacing:1px;color:var(--teal);}
 .cost-total-amount{font-family:'Share Tech Mono',monospace;font-size:18px;font-weight:700;color:var(--teal);}
 .cost-note{font-size:12px;color:var(--text-faint);text-align:center;margin-top:14px;line-height:1.6;}
@@ -331,6 +331,7 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
   <a href="#" class="nav-logo"><span>🦖</span> The Deep Isle</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#servers">Servers</a></li>
     <li><a href="#guide">Mumble Guide</a></li>
     <li><a href="#rules">Rules</a></li>
     <li><a href="#support">Support</a></li>
@@ -359,12 +360,13 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
   <div class="shell stats-inner">
     <div class="stat-item"><div class="stat-num">Evrima</div><div class="stat-label">Game Version</div></div>
     <div class="stat-item"><div class="stat-num">24/7</div><div class="stat-label">Server Uptime</div></div>
+    <div class="stat-item"><div class="stat-num">2</div><div class="stat-label">Active Servers</div></div>
     <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">Pay-to-Win Elements</div></div>
     <div class="stat-item"><div class="stat-num">PTT</div><div class="stat-label">Voice Required</div></div>
   </div>
 </div>
 
-<!-- DISCORD -->
+<!-- ABOUT -->
 <section id="about">
   <div class="shell">
     <div class="sec-header reveal">
@@ -373,53 +375,53 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       <div class="sec-line"></div>
     </div>
     <div class="reveal" style="background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:10px;padding:36px 40px;margin-bottom:32px;">
-  <p style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--teal-dim);margin-bottom:16px;">The Story</p>
-  <h3 style="font-family:'Cinzel',serif;font-size:22px;color:var(--bone);margin-bottom:16px;line-height:1.4;">Built by a player who got tired of servers that couldn't get it right.</h3>
-  <p style="font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:16px;">The Deep Isle started as a personal challenge — to see if one person could build something better. What began as a hobby, born out of the never-ending frustration of not being able to join popular voice chat servers, became a fully featured, community-focused server that actually works. No shortcuts. No excuses.</p>
-  <p style="font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:20px;">We are not here to gatekeep the experience. We are not here to sell you features you deserve for free. We are not here to make survival feel like a chore. We believe The Isle is best when it's immersive, fair, and alive — and we built The Deep Isle with exactly that in mind.</p>
-  <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
-    <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 14px;border-radius:2px;background:rgba(78,205,196,0.08);color:var(--teal);border:1px solid rgba(78,205,196,0.2);">NO PAYWALLS</span>
-    <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 14px;border-radius:2px;background:rgba(78,205,196,0.08);color:var(--teal);border:1px solid rgba(78,205,196,0.2);">NO PAY-TO-WIN</span>
-    <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 14px;border-radius:2px;background:rgba(78,205,196,0.08);color:var(--teal);border:1px solid rgba(78,205,196,0.2);">NO DRAMA</span>
-  </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
-      <div style="font-size:18px;margin-bottom:6px;">🎙️</div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">PROXIMITY VOICE</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">One of the only Evrima servers with fully working Mumble proximity voice chat.</div>
+      <p style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--teal-dim);margin-bottom:16px;">The Story</p>
+      <h3 style="font-family:'Cinzel',serif;font-size:22px;color:var(--bone);margin-bottom:16px;line-height:1.4;">Built by a player who got tired of servers that couldn't get it right.</h3>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:16px;">The Deep Isle started as a personal challenge — to see if one person could build something better. What began as a hobby, born out of the never-ending frustration of not being able to join popular voice chat servers, became a fully featured, community-focused server that actually works. No shortcuts. No excuses.</p>
+      <p style="font-size:14px;color:var(--text-dim);line-height:1.9;margin-bottom:20px;">We are not here to gatekeep the experience. We are not here to sell you features you deserve for free. We are not here to make survival feel like a chore. We believe The Isle is best when it's immersive, fair, and alive — and we built The Deep Isle with exactly that in mind.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;">
+        <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 14px;border-radius:2px;background:rgba(78,205,196,0.08);color:var(--teal);border:1px solid rgba(78,205,196,0.2);">NO PAYWALLS</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 14px;border-radius:2px;background:rgba(78,205,196,0.08);color:var(--teal);border:1px solid rgba(78,205,196,0.2);">NO PAY-TO-WIN</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:5px 14px;border-radius:2px;background:rgba(78,205,196,0.08);color:var(--teal);border:1px solid rgba(78,205,196,0.2);">NO DRAMA</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:6px;">🎙️</div>
+          <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">PROXIMITY VOICE</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">One of the only Evrima servers with fully working Mumble proximity voice chat.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:6px;">⚡</div>
+          <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">2X GROWTH RATE</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Spend less time waiting and more time playing.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:6px;">🐾</div>
+          <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">3X AI POPULATION</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">A living, breathing world packed with AI/Dinosaurs across the entire map.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:6px;">⚔️</div>
+          <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">LITE PVP / ROLEPLAY</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Survival with purpose. Fight when it matters. Roleplay when it doesn't.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:6px;">👥</div>
+          <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">100 PLAYER SLOTS</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Always something happening. Gateway map. North America region.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:6px;">🔞</div>
+          <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">MATURE 18+ COMMUNITY</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">A serious, respectful environment for players who actually want to enjoy the game.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
+          <div style="font-size:18px;margin-bottom:6px;">⚖️</div>
+          <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">POPULATION CONTROL</div>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Species caps are enforced server-wide. When a species reaches its limit, it becomes unselectable — keeping the ecosystem balanced and fair for everyone.</div>
+        </div>
+      </div>
     </div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
-      <div style="font-size:18px;margin-bottom:6px;">⚡</div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">2X GROWTH RATE</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Spend less time waiting and more time playing.</div>
-    </div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
-      <div style="font-size:18px;margin-bottom:6px;">🐾</div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">3X AI POPULATION</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">A living, breathing world packed with AI/Dinosaurs across the entire map.</div>
-    </div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
-      <div style="font-size:18px;margin-bottom:6px;">⚔️</div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">LITE PVP / ROLEPLAY</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Survival with purpose. Fight when it matters. Roleplay when it doesn't.</div>
-    </div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
-      <div style="font-size:18px;margin-bottom:6px;">👥</div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">100 PLAYER SLOTS</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Always something happening. Gateway map. North America region.</div>
-    </div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
-      <div style="font-size:18px;margin-bottom:6px;">🔞</div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">MATURE 18+ COMMUNITY</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">A serious, respectful environment for players who actually want to enjoy the game.</div>
-    </div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:14px 16px;">
-      <div style="font-size:18px;margin-bottom:6px;">⚖️</div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--teal);letter-spacing:1px;margin-bottom:4px;">POPULATION CONTROL</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.6;">Species caps are enforced server-wide. When a species reaches its limit, it becomes unselectable — keeping the ecosystem balanced and fair for everyone.</div>
-    </div>
-  </div>
-</div>
     <div class="discord-card reveal">
       <div class="discord-icon">⬡</div>
       <div class="discord-body">
@@ -434,6 +436,85 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
   </div>
 </section>
 
+<!-- SERVERS -->
+<section id="servers">
+  <div class="shell">
+    <div class="sec-header reveal">
+      <p class="sec-eyebrow">Where to Play</p>
+      <h2 class="sec-title">Our <em>Servers</em></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="servers-grid reveal">
+
+      <!-- MAIN SERVER -->
+      <div class="server-card server-main">
+        <div class="server-badge badge-live">● Live</div>
+        <div class="server-name">The Deep Isle</div>
+        <div class="server-tagline">The main community server. Full rules, active admins, and the complete Deep Isle experience.</div>
+        <div class="server-details">
+          <div class="server-detail">
+            <div class="server-detail-label">Map</div>
+            <div class="server-detail-val">Gateway</div>
+          </div>
+          <div class="server-detail">
+            <div class="server-detail-label">Slots</div>
+            <div class="server-detail-val">100 Players</div>
+          </div>
+          <div class="server-detail">
+            <div class="server-detail-label">Region</div>
+            <div class="server-detail-val">North America</div>
+          </div>
+          <div class="server-detail">
+            <div class="server-detail-label">Find Us</div>
+            <div class="server-detail-val">Search "The Deep Isle"</div>
+          </div>
+        </div>
+        <div class="server-features">
+          <span class="server-feature">2x Growth</span>
+          <span class="server-feature">3x AI</span>
+          <span class="server-feature">Lite PvP / RP</span>
+          <span class="server-feature">PTT Required</span>
+          <span class="server-feature">Population Control</span>
+          <span class="server-feature">18+ Only</span>
+        </div>
+        <div class="server-note">Full server rules apply. Mumble proximity voice chat required. See the rules section below before joining.</div>
+      </div>
+
+      <!-- THE EARL -->
+      <div class="server-card server-earl">
+        <div class="server-badge badge-experimental">⚗ Experimental</div>
+        <div class="server-name">The Earl</div>
+        <div class="server-tagline">Our community test server — where new features, ideas, and experiments come to life before hitting the main server.</div>
+        <div class="server-details">
+          <div class="server-detail">
+            <div class="server-detail-label">Map</div>
+            <div class="server-detail-val">Gateway</div>
+          </div>
+          <div class="server-detail">
+            <div class="server-detail-label">Access</div>
+            <div class="server-detail-val">Open to All</div>
+          </div>
+          <div class="server-detail">
+            <div class="server-detail-label">Region</div>
+            <div class="server-detail-val">North America</div>
+          </div>
+          <div class="server-detail">
+            <div class="server-detail-label">Find Us</div>
+            <div class="server-detail-val">Search "The Earl"</div>
+          </div>
+        </div>
+        <div class="server-features">
+          <span class="server-feature">Experimental Features</span>
+          <span class="server-feature">PTT Required</span>
+          <span class="server-feature">Community Testing</span>
+        </div>
+        <div class="server-note"><strong>Relaxed environment</strong> — no strict rules beyond Mumble being required. Expect things to break. That's the point. Your feedback helps shape the main server.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- MUMBLE GUIDE -->
 <section id="guide">
   <div class="shell">
@@ -442,7 +523,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       <h2 class="sec-title">Mumble <em>Setup Guide</em></h2>
       <div class="sec-line"></div>
     </div>
-
     <div class="mumble-card reveal">
       <div class="mumble-top">
         <div class="mumble-icon">🎙️</div>
@@ -456,10 +536,8 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
         </div>
       </div>
     </div>
-
     <div class="guide-steps reveal">
 
-      <!-- STEP 1 -->
       <div class="guide-step">
         <div class="step-header" onclick="toggleStep(this)">
           <div class="step-num">01</div>
@@ -472,13 +550,11 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
             <li>Download the <strong>TheDeepIsleExileVoicePluginSetup.exe</strong> Spatial Audio Plugin using the button above.</li>
             <li>Run the plugin installer — it installs automatically to the correct Mumble folder.</li>
           </ul>
-          <div class="step-note">
-            <strong>What the plugin does:</strong> Players closer to you = louder. Players further away = quieter. Audio comes from left/right depending on their position relative to yours. You need this plugin to hear people correctly in game.
-          </div>
+          <div class="step-note"><strong>What the plugin does:</strong> Players closer to you = louder. Players further away = quieter. Audio comes from left/right depending on their position relative to yours. You need this plugin to hear people correctly in game.</div>
+          <div class="step-note"><strong>One plugin, both servers:</strong> The Deep Isle plugin works automatically on both The Deep Isle and The Earl. You do not need to download or manage a separate plugin for each server — just install it once and you're covered.</div>
         </div>
       </div>
 
-      <!-- STEP 2 -->
       <div class="guide-step">
         <div class="step-header" onclick="toggleStep(this)">
           <div class="step-num">02</div>
@@ -499,7 +575,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
         </div>
       </div>
 
-      <!-- STEP 3 -->
       <div class="guide-step">
         <div class="step-header" onclick="toggleStep(this)">
           <div class="step-num">03</div>
@@ -517,7 +592,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
         </div>
       </div>
 
-      <!-- STEP 4 -->
       <div class="guide-step">
         <div class="step-header" onclick="toggleStep(this)">
           <div class="step-num">04</div>
@@ -535,7 +609,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
         </div>
       </div>
 
-      <!-- STEP 5 -->
       <div class="guide-step">
         <div class="step-header" onclick="toggleStep(this)">
           <div class="step-num">05</div>
@@ -555,7 +628,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
         </div>
       </div>
 
-      <!-- STEP 6 -->
       <div class="guide-step">
         <div class="step-header" onclick="toggleStep(this)">
           <div class="step-num">06</div>
@@ -576,7 +648,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
         </div>
       </div>
 
-      <!-- STEP 7 -->
       <div class="guide-step">
         <div class="step-header" onclick="toggleStep(this)">
           <div class="step-num">07</div>
@@ -591,9 +662,7 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
             <li>Turn <strong>"Audio per packet"</strong> slider to maximum (60ms)</li>
             <li>Turn <strong>"Quality"</strong> slider to maximum (192.0 kb/s)</li>
           </ul>
-          <div class="step-note" style="margin-top:12px;font-size:14px;font-weight:700;">
-            ✅ <strong>And you're done! Enjoy the server!</strong>
-          </div>
+          <div class="step-note" style="margin-top:12px;font-size:14px;font-weight:700;">✅ <strong>And you're done! Enjoy the server!</strong></div>
         </div>
       </div>
 
@@ -610,8 +679,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       <div class="sec-line"></div>
     </div>
 
-
-    <!-- Rule 1 -->
     <div class="rule-item reveal">
       <div class="rule-num">01</div>
       <div class="rule-body">
@@ -620,7 +687,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       </div>
     </div>
 
-    <!-- Rule 2 -->
     <div class="rule-item reveal">
       <div class="rule-num">02</div>
       <div class="rule-body">
@@ -638,7 +704,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       </div>
     </div>
 
-    <!-- Rule 3 -->
     <div class="rule-item reveal">
       <div class="rule-num">03</div>
       <div class="rule-body">
@@ -655,7 +720,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       </div>
     </div>
 
-    <!-- Species Table -->
     <div class="rule-item reveal" style="flex-direction:column;gap:12px;">
       <div style="display:flex;gap:18px;align-items:flex-start;width:100%;">
         <div class="rule-num" style="opacity:.35;color:var(--teal);">—</div>
@@ -697,7 +761,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       </div>
     </div>
 
-    <!-- Rule 4 -->
     <div class="rule-item reveal">
       <div class="rule-num">04</div>
       <div class="rule-body">
@@ -715,7 +778,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       </div>
     </div>
 
-    <!-- Rule 5 -->
     <div class="rule-item reveal">
       <div class="rule-num">05</div>
       <div class="rule-body">
@@ -728,7 +790,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       </div>
     </div>
 
-    <!-- Rule 6 -->
     <div class="rule-item reveal">
       <div class="rule-num">06</div>
       <div class="rule-body">
@@ -740,7 +801,6 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       </div>
     </div>
 
-    <!-- Final rule -->
     <div class="rule-item reveal" style="border-color:rgba(78,205,196,0.3);background:rgba(13,40,36,0.4);">
       <div class="rule-num" style="opacity:1;">📜</div>
       <div class="rule-body">
@@ -838,6 +898,7 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       <h4>Navigate</h4>
       <ul>
         <li><a href="#about">About</a></li>
+        <li><a href="#servers">Servers</a></li>
         <li><a href="#guide">Mumble Guide</a></li>
         <li><a href="#rules">Rules</a></li>
         <li><a href="#support">Support Us</a></li>
@@ -856,7 +917,7 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
     <div class="footer-links">
       <h4>Monthly Costs</h4>
       <ul>
-        <li><a href="#support">PC Hosting: $19.99</a></li>
+        <li><a href="#support">Game Host Bros: $19.99</a></li>
         <li><a href="#support">Carl-bot Pro: $7.99</a></li>
         <li><a href="#support">Discord Nitro: $9.99</a></li>
         <li><a href="#support">Total: $37.97/mo</a></li>
@@ -871,6 +932,8 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
 </footer>
 
 </div>
+
+<!-- COST MODAL -->
 <div class="modal-overlay" id="costModal" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-header">
@@ -878,20 +941,21 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
+      <div class="cost-row"><div class="cost-label">Game Host Bros Server Hosting<span>Dedicated game server hosting</span></div><div class="cost-amount">$19.99</div></div>
       <div class="cost-row"><div class="cost-label">Carl-bot Premium<span>Automated role management & server tools</span></div><div class="cost-amount">$7.99</div></div>
       <div class="cost-row"><div class="cost-label">Discord Nitro<span>Server boosting & features</span></div><div class="cost-amount">$9.99</div></div>
-      <div class="cost-row"><div class="cost-label">Game Host Bros Server Hosting<span>Server management & development tools</span></div><div class="cost-amount">$19.99</div></div>
       <div class="cost-total"><div class="cost-total-label">Total Monthly Cost</div><div class="cost-total-amount">$37.97</div></div>
       <div class="cost-note"><strong>Admin time is donated to the community</strong> — roughly 10 hours/week of unpaid work, not included in the funding goal. No profit. No hidden fees.</div>
     </div>
   </div>
 </div>
+
 <script>
-  function openModal(){document.getElementById('costModal').classList.add('open');document.body.style.overflow='hidden';}
+function openModal(){document.getElementById('costModal').classList.add('open');document.body.style.overflow='hidden';}
 function closeModal(){document.getElementById('costModal').classList.remove('open');document.body.style.overflow='';}
 function handleOverlayClick(e){if(e.target===document.getElementById('costModal'))closeModal();}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-// Accordion steps
+
 function toggleStep(header) {
   const body = header.nextElementSibling;
   const toggle = header.querySelector('.step-toggle');
@@ -900,7 +964,6 @@ function toggleStep(header) {
   toggle.classList.toggle('open', !isOpen);
 }
 
-// Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
@@ -911,7 +974,6 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.06 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Nav active state
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
@@ -920,6 +982,6 @@ window.addEventListener('scroll', () => {
   navLinks.forEach(a => { a.style.color = a.getAttribute('href') === '#' + current ? 'var(--teal)' : ''; });
 });
 </script>
-  
+
 </body>
 </html>
