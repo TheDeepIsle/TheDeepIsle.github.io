@@ -515,173 +515,20 @@ footer{background:var(--bg1);border-top:1px solid var(--border);padding:48px 28p
   </div>
 </section>
 
-<!-- MUMBLE GUIDE -->
+<!-- VOICE GUIDE -->
 <section id="guide">
   <div class="shell">
     <div class="sec-header reveal">
       <p class="sec-eyebrow">Proximity Voice Chat</p>
-      <h2 class="sec-title">Mumble <em>Setup Guide</em></h2>
+      <h2 class="sec-title">Deep Isle <em>Voice App</em></h2>
       <div class="sec-line"></div>
     </div>
     <div class="mumble-card reveal">
       <div class="mumble-top">
         <div class="mumble-icon">🎙️</div>
         <div class="mumble-intro">
-          <h3>Mumble is Required on The Deep Isle</h3>
-          <p>We use Mumble for positional proximity voice chat — players closer to you sound louder, audio comes from left/right based on position. <strong>Mumble is required to play on this server.</strong> If the server does not detect you on Mumble within 15 minutes of joining, you will be kicked automatically.</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a href="https://www.mumble.info/downloads/" class="btn btn-primary" target="_blank">Download Mumble</a>
-            <a href="https://github.com/TheDeepIsle/TheDeepIsle.github.io/raw/main/The%20Deep%20Isle%20Voice%20Plugin.zip" class="btn btn-secondary">Download Deep Isle Plugin</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="guide-steps reveal">
-
-      <div class="guide-step">
-        <div class="step-header" onclick="toggleStep(this)">
-          <div class="step-num">01</div>
-          <div class="step-title">Install Mumble & the Deep Isle Plugin</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">
-          <ul>
-            <li>Download Mumble from <strong>mumble.info/downloads</strong> and install it like any normal program.</li>
-            <li>Download the <strong>TheDeepIsleExileVoicePluginSetup.exe</strong> Spatial Audio Plugin using the button above.</li>
-            <li>Run the plugin installer — it installs automatically to the correct Mumble folder.</li>
-          </ul>
-          <div class="step-note"><strong>What the plugin does:</strong> Players closer to you = louder. Players further away = quieter. Audio comes from left/right depending on their position relative to yours. You need this plugin to hear people correctly in game.</div>
-          <div class="step-note"><strong>One plugin, both servers:</strong> The Deep Isle plugin works automatically on both The Deep Isle and The Earl. You do not need to download or manage a separate plugin for each server — just install it once and you're covered.</div>
-        </div>
-      </div>
-
-      <div class="guide-step">
-        <div class="step-header" onclick="toggleStep(this)">
-          <div class="step-num">02</div>
-          <div class="step-title">Add the Server</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">
-          <ul>
-            <li>Open Mumble and click <strong>Server → Connect → Add New</strong></li>
-            <li>Enter the server details exactly as shown below and click <strong>OK</strong> to connect.</li>
-          </ul>
-          <div class="step-server-block">
-            <h6 style="margin-bottom:8px;">🦖 The Deep Isle <span style="font-weight:normal;opacity:0.7;">— Main Server</span></h6>
-            <div class="step-grid">
-              <div class="step-grid-item"><h5>Address</h5><p>75.185.83.53</p></div>
-              <div class="step-grid-item"><h5>Port</h5><p>64738</p></div>
-              <div class="step-grid-item"><h5>Username</h5><p>Your in-game name</p></div>
-              <div class="step-grid-item"><h5>Label</h5><p>The Deep Isle</p></div>
-            </div>
-          </div>
-
-          <div class="step-server-block" style="margin-top:20px;">
-            <h6 style="margin-bottom:8px;">🧪 The Earl <span style="font-weight:normal;opacity:0.7;">— Test Server</span></h6>
-            <div class="step-grid">
-              <div class="step-grid-item"><h5>Address</h5><p>75.185.83.53</p></div>
-              <div class="step-grid-item"><h5>Port</h5><p>64739</p></div>
-              <div class="step-grid-item"><h5>Username</h5><p>Your in-game name</p></div>
-              <div class="step-grid-item"><h5>Label</h5><p>The Earl</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="guide-step">
-        <div class="step-header" onclick="toggleStep(this)">
-          <div class="step-num">03</div>
-          <div class="step-title">Enable the Spatial Audio Plugin</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">
-          <ul>
-            <li>In Mumble click <strong>Configure → Settings → Plugins</strong></li>
-            <li>Find <strong>"Exile Voice - Spatial Audio"</strong> in the list</li>
-            <li>Make sure the checkbox next to it is <strong>ticked/enabled</strong></li>
-            <li>Close Mumble completely and restart it</li>
-          </ul>
-          <div class="step-note"><strong>After restarting</strong> you should see a message in the Mumble log confirming the plugin loaded: <em>"Exile Voice - Spatial Audio: [exile_voice] loaded"</em></div>
-        </div>
-      </div>
-
-      <div class="guide-step">
-        <div class="step-header" onclick="toggleStep(this)">
-          <div class="step-num">04</div>
-          <div class="step-title">Verify In-Game</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">
-          <ul>
-            <li>Launch The Isle and join The Deep Isle server</li>
-            <li>Make sure Mumble is open and you are connected to the Mumble server</li>
-            <li>Mumble and the game server will communicate and verify your position automatically</li>
-          </ul>
-          <div class="step-note"><strong>If it's working:</strong> You will receive no messages from the server about Mumble.</div>
-          <div class="step-warn"><strong>If it's NOT working:</strong> You will begin receiving automated messages advising that Mumble is required. Fix the issue within <strong>15 minutes</strong> or you will be kicked automatically.</div>
-        </div>
-      </div>
-
-      <div class="guide-step">
-        <div class="step-header" onclick="toggleStep(this)">
-          <div class="step-num">05</div>
-          <div class="step-title">Set Up Push-To-Talk (Required)</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">
-          <div class="step-warn"><strong>Push-To-Talk is required</strong> on this server at all times. Hot mics are not permitted.</div>
-          <ul>
-            <li>In Mumble click <strong>Configure → Settings → Shortcuts</strong></li>
-            <li>Click <strong>Add</strong></li>
-            <li>In the Function dropdown select <strong>Push-to-Talk</strong></li>
-            <li>Click the Shortcut field and press the key or mouse button you want to use</li>
-            <li>Click <strong>OK</strong> to save</li>
-          </ul>
-          <div class="step-note"><strong>Recommended:</strong> Mouse button 5 (M5) keeps your hands on keyboard/mouse without needing to reach for a key.</div>
-        </div>
-      </div>
-
-      <div class="guide-step">
-        <div class="step-header" onclick="toggleStep(this)">
-          <div class="step-num">06</div>
-          <div class="step-title">Disable Notification Sounds (Strongly Recommended)</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">
-          <p>Mumble has a lot of notification sounds by default that will interrupt your gameplay. It is strongly recommended to turn all of these off.</p>
-          <ul>
-            <li>Click <strong>Configure → Settings → Messages</strong></li>
-            <li>Untick <strong>ALL checkboxes</strong> in the Notification column — this removes all notification sounds</li>
-          </ul>
-          <p style="margin-top:12px;"><strong style="color:var(--bone);">Also remove mic activation noise:</strong></p>
-          <ul>
-            <li>Go to <strong>Configure → Settings → Audio Input → Misc</strong></li>
-            <li>Make sure <strong>Push To Talk</strong> and <strong>Voice Activity</strong> audio cue checkboxes are both <strong>unchecked</strong></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="guide-step">
-        <div class="step-header" onclick="toggleStep(this)">
-          <div class="step-num">07</div>
-          <div class="step-title">Audio Quality Fixes (Very Important)</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">
-          <div class="step-warn"><strong>These settings significantly improve audio quality.</strong> Please complete all steps.</div>
-          <ul>
-            <li>Go to <strong>Configure → Settings → Audio Input → Compression</strong></li>
-            <li><strong>Uncheck</strong> "Allow low-delay mode"</li>
-            <li>Turn <strong>"Audio per packet"</strong> slider to maximum (60ms)</li>
-            <li>Turn <strong>"Quality"</strong> slider to maximum (192.0 kb/s)</li>
-          </ul>
-          <div class="step-note" style="margin-top:12px;font-size:14px;font-weight:700;">✅ <strong>And you're done! Enjoy the server!</strong></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+          <h3>The Deep Isle Voice App is Required</h3>
+          <p>We use our own custom voice app for positional proximity voice chat — players closer to you sound louder, audio comes from left/right based on position. <strong>The voice app is required to play on this server.</strong> If the server does not detect you connected within 15 minutes of joining, you will be kicked
 
 <!-- RULES -->
 <section id="rules">
